@@ -63,15 +63,39 @@ void print_field() {
 void spawn_food() {
   srand(time(NULL));
   int rrow = ROW - 1, rcol = COL - 1;
-  while (field[rrow][rcol] == '#') {
-    rrow = rand() % ROW;
-    rrow++;
-    rcol = rand() % COL;
-    rcol++;
+  if (food_state == 1) {
+    while (field[rrow][rcol] == '#') {
+      rrow = rand() % ROW;
+      rrow++;
+      rcol = rand() % COL;
+      rcol++;
+    }
+    field[rrow][rcol] = 'x';
   }
-  field[rrow][rcol] = 'x';
 }
 
+void input() {
+  char c;
+  c = custom_getch();
+  printf("valore  di c: %c", c);
+  switch (c) {
+  case 'd':
+    flag = 1;
+    break;
+  case 'a':
+    flag = 2;
+    break;
+  case 'w':
+    flag = 3;
+    break;
+  case 's':
+    flag = 4;
+    break;
+  default:
+    flag = flag;
+    break;
+  }
+}
 /* Initialize new terminal i/o settings */
 void initTermios(int echo) {
   tcgetattr(0, &old);         /* grab old terminal i/o settings */
@@ -98,26 +122,3 @@ char getch_(int echo) {
 }
 
 char custom_getch() { return getch_(0); }
-
-void input() {
-  char c;
-  c = custom_getch();
-  printf("valore  di c: %c", c);
-  switch (c) {
-  case 'd':
-    flag = 1;
-    break;
-  case 'a':
-    flag = 2;
-    break;
-  case 'w':
-    flag = 3;
-    break;
-  case 's':
-    flag = 4;
-    break;
-  default:
-    flag = flag;
-    break;
-  }
-}
